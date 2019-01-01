@@ -4,7 +4,7 @@ void led_init(void)
 {
      gpio_pin_config_t led_pin_conf;
 	
-	  // _HAL_RCC_GPIOB_CLOCK_ENABLE();
+	  _HAL_RCC_GPIOB_CLOCK_ENABLE();
 			
 		 led_pin_conf.pin=GPIO_PIN_8;
 	   led_pin_conf.mode=GPIO_PIN_OUTPUT_MODE_SPEED_LOW;
@@ -13,11 +13,7 @@ void led_init(void)
 	   hal_gpio_init(GPIOB,&led_pin_conf);
 	
 	
-		 led_pin_conf.pin=GPIO_PIN_6;
-	   led_pin_conf.mode=GPIO_PIN_OUTPUT_MODE_SPEED_LOW;
-	   led_pin_conf.output_type=GPIO_PIN_OUTPUT_PUSH_PULL;
-	 
-	   hal_gpio_init(GPIOB,&led_pin_conf);
+
 	
 		 led_pin_conf.pin=GPIO_PIN_7;
 	   led_pin_conf.mode=GPIO_PIN_OUTPUT_MODE_SPEED_LOW;
@@ -25,12 +21,14 @@ void led_init(void)
 	 
 	   hal_gpio_init(GPIOB,&led_pin_conf);
 		 
-		 led_pin_conf.pin=GPIO_PIN_9;
-	   led_pin_conf.mode=GPIO_PIN_OUTPUT_MODE_SPEED_LOW;
-	   led_pin_conf.output_type=GPIO_PIN_OUTPUT_PUSH_PULL;
-	 
-	   hal_gpio_init(GPIOB,&led_pin_conf); 
+	
+	
+		 led_pin_conf.pin=GPIO_PIN_1;
+		 led_pin_conf.input_type=GPIO_PIN_INPUT_ANALOG_MODE;
+	   led_pin_conf.mode=GPIO_PIN_INPUT_MODE;
 
+	   hal_gpio_init(GPIOB,&led_pin_conf);
+		 
 
 
 }
@@ -85,17 +83,15 @@ void hal_gpio_init(GPIO_TypeDef *GPIOx,gpio_pin_config_t *gpio_pin_conf)
 void hal_gpio_configure_pin_outtype(GPIO_TypeDef *GPIOx,uint16_t pin_no,uint32_t out_type)
 {
     if(pin_no <0x08)
-		  if(out_type!=0)   
-    	   GPIOx->CRL|= (out_type << (  pin_no*4    +2)); 
-			else
-		     GPIOx->CRL&= ~(0X03 << (  pin_no*4    +2)); 	
+		{
+		  GPIOx->CRL &= ~(0X03 << (  pin_no*4    +2));
+			GPIOx->CRL |= (out_type << (  pin_no*4    +2)); 
+		}			
 		else
-			
-		  if(out_type!=0)   
-    	   GPIOx->CRH|= (out_type << (  pin_no*4    +2)); 
-			else
-		     GPIOx->CRH&= ~(0X03 << ( (pin_no-8)*4 +2));
-		
+		{
+		  GPIOx->CRH &= ~(0X03 << ( (pin_no-8)*4 +2));
+			GPIOx->CRH |= (out_type << (  (pin_no-8)*4    +2)); 
+		}
 }
 
 
@@ -134,7 +130,7 @@ void hal_gpio_cnfg_pin_outtype_speed(GPIO_TypeDef *GPIOx,uint16_t pin_no,uint32_
     
   AFIO->EVCR|=(GPIOx<<4);
   AFIO->EVCR|=(pin_no<<0);
-	AFIO->MAPR|=(cnf<<selected_func);
+	//AFIO->MAPR|=(cnf<<selected_func);
 	
 }
 
@@ -165,7 +161,7 @@ uint8_t hal_gpio_read_to_pin(GPIO_TypeDef *GPIOx,uint16_t pin_no)
 {
    uint8_t value;
 	
-	 value=((GPIOx->ODR>>pin_no)& 0x00000001);
+	 value=((GPIOx->IDR>>pin_no)& 0x00000001);
    
 	 return value;
 }

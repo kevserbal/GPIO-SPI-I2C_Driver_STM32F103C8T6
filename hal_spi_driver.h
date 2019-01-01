@@ -91,9 +91,9 @@ extern "C" {
 
 /*************** Macros to enable clock for different spi's ********************/
 
-#define _HAL_RCC_SPI1_CLK_ENABLE()   (RCC->APB2ENR|=(1<<12))
-#define _HAL_RCC_SPI2_CLK_ENABLE()   (RCC->APB1ENR|=(1<<14))
-#define _HAL_RCC_SPI3_CLK_ENABLE()   (RCC->APB1ENR|=(1<<15))
+#define _HAL_RCC_SPI1_CLK_ENABLE()   (RCC->APB2ENR|=((uint32_t ) 1<<12))
+#define _HAL_RCC_SPI2_CLK_ENABLE()   (RCC->APB1ENR|=((uint32_t ) 1<<14))
+#define _HAL_RCC_SPI3_CLK_ENABLE()   (RCC->APB1ENR|=((uint32_t ) 1<<15))
 
 
 
