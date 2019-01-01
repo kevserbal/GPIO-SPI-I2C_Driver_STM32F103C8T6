@@ -22,6 +22,7 @@ void hal_i2c_init(i2c_handle_t *handle){
 	
 	/* Finally, enable the IC2 perhipheral */ 
 	hal_i2c_enable(handle->I2Cx);
+
 	
 	hal_i2c_disable(handle->I2Cx);
 	
@@ -87,6 +88,7 @@ void hal_i2c_init(i2c_handle_t *handle){
 	/*Configure the own address */
 	hal_i2c_set_ownadress1(handle->I2Cx,handle->init.OwnAdd1);
   hal_i2c_enable(handle->I2Cx);
+
 }
 
 
@@ -250,6 +252,7 @@ uint8_t hal_i2c_is_busy(I2C_TypeDef *i2cx)
 
 void hal_i2c_wait_until_sb_set(I2C_TypeDef *i2cx)
 {
+
   uint32_t x;
   while(!(i2cx->SR1 & I2C_REG_SR1_START_BIT_FLAG));
   x=i2cx->SR1;
@@ -272,15 +275,15 @@ void hal_i2c_master_tx(i2c_handle_t *handle, uint8_t slaveAdrr,uint8_t *buffer, 
 	// populate handle with len and buffer information 
 	handle->pBufferTx=buffer;
 	handle->TrSize=len;
-	handle->XferCount=len; //burasi biraz saçma olmus gibi gibi 
+	handle->XferCount=len; //burasi biraz saï¿½ma olmus gibi gibi 
 	handle->state=HAL_I2C_STATE_BUSY_TX;
 	
 	// make sure I2Cx is enabled
 	hal_i2c_enable(handle->I2Cx);
 
 	// Generate the start condition
-
 	handle->I2Cx->CR1 |= I2C_CR1_START;
+
 	// wait until the sb is set
 	hal_i2c_wait_until_sb_set(handle->I2Cx);
 	
@@ -320,7 +323,7 @@ void hal_i2c_master_rx(i2c_handle_t *handle, uint8_t slaveAdrr,uint8_t *buffer, 
 	// populate handle with len and buffer information 
 	handle->pBufferTx=buffer;
 	handle->TrSize=len;
-	handle->XferCount=len; //burasi biraz saçma olmus gibi gibi 
+	handle->XferCount=len; //burasi biraz saï¿½ma olmus gibi gibi 
 	handle->state=HAL_I2C_STATE_BUSY_RX;
 	
 	// make sure I2Cx is enabled
@@ -358,7 +361,7 @@ void hal_i2c_slave_tx(i2c_handle_t *handle,uint8_t *buffer, uint32_t len)
 	// populate handle with len and buffer information 
 	handle->pBufferTx=buffer;
 	handle->TrSize=len;
-	handle->XferCount=len; //burasi biraz saçma olmus gibi gibi 
+	handle->XferCount=len; //burasi biraz saï¿½ma olmus gibi gibi 
 	handle->state=HAL_I2C_STATE_BUSY_TX;
 	
 	//make sure pos is 0
@@ -384,7 +387,7 @@ void hal_i2c_slave_rx(i2c_handle_t *handle,uint8_t *buffer, uint32_t len)
 	// populate handle with len and buffer information 
 	handle->pBufferTx=buffer;
 	handle->TrSize=len;
-	handle->XferCount=len; //burasi biraz saçma olmus gibi gibi 
+	handle->XferCount=len; //burasi biraz saï¿½ma olmus gibi gibi 
 	handle->state=HAL_I2C_STATE_BUSY_RX;
 	
 	//make sure pos is 0

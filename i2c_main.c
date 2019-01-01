@@ -6,7 +6,9 @@
 #include "stm32f10x.h"
 #include <string.h> 
 
+
 #define SLAVE_OWN_ADDRESS      (uint8_t) 0x52;
+
 #define SLAVE_ADDRESS_READ     (uint8_t) 0xA7
 #define SLAVE_ADDRESS_WRITE    (uint8_t) 0xA6
 
@@ -69,7 +71,9 @@ int main()
 	
 	hal_i2c_init(&handleI2C);
 	
-		  while(hal_gpio_read_to_pin(GPIOB,GPIO_PIN_1) == SET)
+
+		  while(hal_gpio_read_to_pin(GPIOB,GPIO_PIN_1) != SET)
+
     { 
 			led_turn_on(GPIOB,GPIO_PIN_8);
 			

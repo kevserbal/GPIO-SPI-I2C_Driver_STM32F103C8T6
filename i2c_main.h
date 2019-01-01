@@ -11,6 +11,7 @@ extern "C" {
 
 
 #define GPIO_PIN__6      6
+
 #define GPIO_PIN__7      7
 
 #define I2C_SCL_LINE     GPIO_PIN__6
